@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
+      layout:decorator="layout">
+<head>
+    <title th:text="#{page-name-onboarding}"></title>
+</head>
+<body>
+<section layout:fragment="content">
+	<div class="container-fluid">
+    	<div class="fade-in">
+    		
+    		<form action="#" th:action="@{/pages/onboarding}" method="post" th:object="${onBoarding}">
+				
+				<div class="accordion" id="onboardingAccordian">
+				  <div class="card">
+				    <div class="card-header" id="cifHeader">
+				      <h2 class="mb-0">
+				        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+				          <strong><span th:text="#{new-cif-account}"></span></strong>
+				        </button>
+				      </h2>
+				    </div>
+				
+				    <div id="collapseOne" class="collapse show" aria-labelledby="cifHeader" data-parent="#onboardingAccordian">
+				      <div class="card-body">
+				        <div class="row justify-content-center">
+							<div class="form-group col-sm-3">
+							  <label for="customerType"><span th:text="#{customer-type}"></span></label>
+								<select class="form-control" th:field="*{customerType}" id="customerType">
+									<option th:each="p : ${customerTypeMap}" th:value="${p.key}" th:text="${p.value}"/>
+								</select>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="residencyType"><span th:text="#{residency-type}"></span></label>
+								<select class="form-control" th:field="*{residencyType}" id="residencyType">
+									<option th:each="p : ${residencyTypeMap}" th:value="${p.key}" th:text="${p.value}" />
+								</select>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="customerSegment"><span th:text="#{segment}"></span></label>
+								<select class="form-control" th:field="*{customerSegment}" id="customerSegment">
+									<option th:each="p : ${customerSegmentMap}" th:value="${p.key}" th:text="${p.value}" />
+								</select>
+							</div>
+						</div>
+						<div class="row justify-content-center">
+							<div class="form-group col-sm-3">
+							  <label for="mobileNumber"><span th:text="#{mobile-number}"></span></label>
+								<input class="form-control" type="text" id="mobileNumber"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="emailAddress"><span th:text="#{email-address}"></span></label>
+								<input class="form-control" type="text" id="emailAddress"/>
+							</div>
+						</div>
+						<div class="row justify-content-center">
+							<div class="col-3 col-sm-4 col-md-2 ">
+								<button class="btn btn-block btn-pill aub-btn-blue" type="button" id="nextButton" th:onclick="newCifButtonNext()"><span th:text="#{next}"></span></button>
+							</div>
+						</div>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="card">
+				    <div class="card-header" id="cifDetails">
+				      <h2 class="mb-0">
+				        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+				          <strong><span th:text="#{authentication}"></span></strong>
+				        </button>
+				      </h2>
+				    </div>
+				    <div id="collapseTwo" class="collapse" aria-labelledby="cifDetails" data-parent="#onboardingAccordian">
+				      <div class="card-body">
+				        <div class="row justify-content-center">
+		                    <div class="col-3 col-sm-3 col-md-3 ">
+		                      <button class="btn btn-block btn-pill aub-btn-blue" type="button" data-toggle="collapse" data-target="#customerQRCollapse" data-parent="#parent" aria-expanded="false" aria-controls="customerQRCollapse">
+		                      <svg class="c-icon mr-2">
+	                            <use th:href="@{/vendors/@coreui/icons/svg/free.svg#cil-qr-code}"></use>
+	                          </svg>Customer QR Verification</button>
+		                      
+		                    </div>
+	                    	<div class="col-3 col-sm-3 col-md-3 ">
+		                      <button class="btn btn-block btn-pill aub-btn-blue" type="button" data-toggle="collapse" data-target="#mobileQRCollapse" data-parent="#parent" aria-expanded="false" aria-controls="mobileQRCollapse">
+		                      <svg class="c-icon mr-2">
+	                            <use th:href="@{/vendors/@coreui/icons/svg/free.svg#cil-qr-code}"></use>
+	                          </svg>Mobile ID QR Verification</button>
+		                    </div>
+		                    
+		                    <div class="col-2 col-sm-2 col-md-2 ">
+		                      <button class="btn btn-block btn-pill aub-btn-blue" type="button" data-toggle="collapse" data-target="#pushNotificationCollapse" data-parent="#parent" aria-expanded="false" aria-controls="pushNotificationCollapse">
+		                      <svg class="c-icon mr-2">
+	                            <use th:href="@{/vendors/@coreui/icons/svg/free.svg#cil-mobile}"></use>
+	                          </svg>Push Notification</button>
+		                    </div>
+						</div>
+						<br/>
+						<div class="row justify-content-center">
+							<div class="col-2 col-sm-2 col-md-2 ">
+		                      <button class="btn btn-block btn-pill aub-btn-blue" type="button" data-toggle="collapse" data-target="#scanCivilIdCollapse" data-parent="#parent" aria-expanded="false" aria-controls="scanCivilIdCollapse">
+		                      <svg class="c-icon mr-2">
+	                            <use th:href="@{/vendors/@coreui/icons/svg/free.svg#cil-credit-card}"></use>
+	                          </svg>Scan Civil Id</button>
+		                    </div>
+							<div class="col-2 col-sm-2 col-md-2 ">
+		                      <button class="btn btn-block btn-pill aub-btn-gold" type="button">Other</button>
+		                    </div>
+						</div>
+						<br/>
+						<div id="parent">
+							<div class="accordion-group" >
+								<div id="scanCivilIdCollapse" class="collapse indent" >
+		                        	<div class="card card-body">Please Open CIVIL ID Application and scan Physical Civil ID.</div>
+								</div>
+								<div id="customerQRCollapse" class="collapse indent" >
+									<input class="form-control" type="text" id="customerQRScanText" placeholder="Scan Customer Kuwait Mobile Id QR Code From QR Scanner"/>
+			                     </div>
+			                     <div id="mobileQRCollapse" class="collapse indent" >
+		                        	<div class="card card-body">Scan this QR Code from Customer Kuwait Mobile Id.</div>
+								</div>
+								<div id="pushNotificationCollapse" class="collapse indent" >
+		                        	<div class="card card-body">A Push Notification has been sent on Customer Mobile, Kindly ask them to Approve.</div>
+								</div>
+		                     </div>
+	                     </div>
+				      </div>
+				    </div>
+				  </div>
+				  <div class="card">
+				    <div class="card-header" id="cifAddress">
+				      <h2 class="mb-0">
+				        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+				          <strong><span th:text="#{civil-id-detail-from-paci}"></span></strong>
+				        </button>
+				      </h2>
+				    </div>
+				    <div id="collapseThree" class="collapse" aria-labelledby="cifAddress" data-parent="#onboardingAccordian">
+				      <div class="card-body">
+				        <div class="row justify-content-center">
+							<div class="form-group col-sm-3">
+							  <label for="civilId"><span th:text="#{civil-id}"></span></label>
+								<input class="form-control" type="text" id="civilId"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="civilIdExpiry"><span th:text="#{civil-id-expiry}"></span></label>
+								<input class="form-control" type="text" id="civilIdExpiry"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="firstName"><span th:text="#{first-name}"></span></label>
+								<input class="form-control" type="text" id="firstName"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="lastName"><span th:text="#{last-name}"></span></label>
+								<input class="form-control" type="text" id="lastName"/>
+							</div>
+						</div>
+						<div class="row justify-content-center">
+							<div class="form-group col-sm-3">
+							  <label for="dateOfBirth"><span th:text="#{date-of-birth}"></span></label>
+								<input class="form-control" type="text" id="dateOfBirth"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="gender"><span th:text="#{gender}"></span></label>
+								<input class="form-control" type="text" id="gender"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="nationality"><span th:text="#{nationality}"></span></label>
+								<input class="form-control" type="text" id="nationality"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="passportNo"><span th:text="#{passport-no}"></span></label>
+								<input class="form-control" type="text" id="passportNo"/>
+							</div>
+						</div>
+						<strong class="row justify-content-center"><span th:text="#{customer-address-from-paci}"></span></strong>
+						<div class="row justify-content-center">
+							<div class="form-group col-sm-3">
+							  <label for="addressArLine1"><span th:text="#{addr-ar-line-1}"></span></label>
+								<input class="form-control" type="text" id="addressArLine1"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="addressArLine2"><span th:text="#{addr-ar-line-2}"></span></label>
+								<input class="form-control" type="text" id="addressArLine2"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="addressArLine3"><span th:text="#{addr-ar-line-3}"></span></label>
+								<input class="form-control" type="text" id="addressArLine3"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="addressArLine4"><span th:text="#{addr-ar-line-4}"></span></label>
+								<input class="form-control" type="text" id="addressArLine4"/>
+							</div>
+						</div>
+						<strong class="row justify-content-center"><span th:text="#{customer-english-address}"></span></strong>
+						<div class="row justify-content-center">
+						<div class="form-group col-sm-3">
+							  <label for="addressEnLine1"><span th:text="#{addr-en-line-1}"></span></label>
+								<input class="form-control" type="text" id="addressEnLine1"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="addressEnLine2"><span th:text="#{addr-en-line-2}"></span></label>
+								<input class="form-control" type="text" id="addressEnLine2"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="addressEnLine3"><span th:text="#{addr-en-line-3}"></span></label>
+								<input class="form-control" type="text" id="addressEnLine3"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="addressEnLine4"><span th:text="#{addr-en-line-4}"></span></label>
+								<input class="form-control" type="text" id="addressEnLine4"/>
+							</div>
+						</div>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				
+				
+      		</form>
+		</div>
+   </div>
+   <br/><br/>
+</section>
+<th:block layout:fragment="script">
+	<script th:src="@{/js/onboarding.js}"></script>
+</th:block>
+</body>
+
+</html>
