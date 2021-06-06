@@ -27,6 +27,7 @@
     <meta name="msapplication-TileImage" content="@{/assets/favicon/ms-icon-144x144.png}">
     <meta name="theme-color" content="#ffffff">
     <!-- Main styles for this application-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" />
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/common.css}">
 
@@ -38,7 +39,7 @@
 		    <div class="row justify-content-center">
 		        <div class="col-12 col-xs-12 col-sm-11 col-lg-10 text-center" style="position: relative;">
 		            <div class="logoAubk">
-		                <img th:src="@{/assets/img/aub_logo.png}">
+		                <img th:src="@{/assets/img/logo.png}">
 		            </div>   
 		            
 		        </div>
@@ -63,8 +64,13 @@
     <script th:src="@{/vendors/@coreui/icons/js/svgxuse.min.js}"></script>
     <!--<![endif]-->
     <script th:src="@{/vendors/@coreui/utils/js/coreui-utils.js}"></script>
+    
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <!-- <script th:src="@{/js/main.js}"></script> -->
 	<th:block layout:fragment="script"></th:block>
+	    
 
   </body>
 </html>
