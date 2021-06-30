@@ -1,13 +1,19 @@
 package com.ahliunited.branch.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.ahliunited.branch.domain.MIDAuthentication;
+
 
 @Service
 public class OnBoardingService {
+	
+	List<MIDAuthentication> midAuthList = new ArrayList<MIDAuthentication>();
 	
 	public Map<String, String> getCustomerType(){
 		
@@ -40,6 +46,68 @@ public class OnBoardingService {
 		residencyTypeMap.put("1", "KUWAIT");
 		residencyTypeMap.put("2", "USA");
 	    return residencyTypeMap;
+	}
+
+	public List<MIDAuthentication> getMIDAuthList(String civilIdNumber) {
+		
+			MIDAuthentication midAuthentication = new MIDAuthentication();
+			
+			midAuthentication.setCustomerCivilId("28707050795");
+			midAuthentication.setCustomerName("Mohammad Kaleem Ansari");
+			midAuthentication.setCivilIdExpiryDate("2022-08-15");
+			midAuthentication.setIsAuthenticated("true");
+			
+			midAuthList.add(midAuthentication);
+		
+		return midAuthList;
+	}
+
+	public void deleteAuth(String id) {
+		
+		midAuthList.remove(id);
+	}
+
+	public Map<String, String> getAreaInEnglish() {
+		
+		Map<String, String> areaMap = new HashMap<String, String>();
+		areaMap.put("Kuwait City", "Kuwait City");
+		areaMap.put("Salmiya", "Salmiya");
+		areaMap.put("Farwania", "Farwaniya");
+		areaMap.put("Hawally", "Hawally");
+		return areaMap;
+	}
+	
+	public Map<String, String> getAreaInArabic() {
+		
+		Map<String, String> areaMap = new HashMap<String, String>();
+		areaMap.put("Kuwait City", "Kuwait City");
+		areaMap.put("Salmiya", "Salmiya");
+		areaMap.put("Farwania", "Farwaniya");
+		areaMap.put("Hawally", "Hawally");
+		return areaMap;
+	}
+
+	public Map<String, String> getAccountCurrency() {
+		
+		Map<String, String> currencyMap = new HashMap<String, String>();
+		currencyMap.put("KD", "Kuwaiti Dinar");
+		currencyMap.put("USD", "American Doller");
+		return currencyMap;
+	}
+
+	public Map<String, String> getAccountOpenReason() {
+		
+		Map<String, String> reasonMap = new HashMap<String, String>();
+		
+		reasonMap.put("1", "For Saving");
+		return reasonMap;
+	}
+
+	public Map<String, String> getBranches() {
+		Map<String, String> branchMap = new HashMap<String, String>();
+		
+		branchMap.put("1", "Head Office");
+		return branchMap;
 	}
 
 }
