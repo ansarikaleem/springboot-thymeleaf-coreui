@@ -1,69 +1,136 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml"
-      layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title th:text="#{page-name-onboarding}"></title>
-
 </head>
-<body>
-<div th:errors="${customer.mobileNumber}"></div>
-<section layout:fragment="content">
-	<div class="container-fluid">
-    	<div class="fade-in" id="onboarding-main">
-    		
-    		<form id="onboardingForm1" action="#" th:action="@{/onboarding}" method="post" th:object="${customer}">
-				
-				<div class="accordion" id="onboardingAccordian">
-				  <div class="card">
-				    <div class="card-header" id="cifHeader">
-				      <h2 class="mb-0">
-				        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-				          <strong><span th:text="#{new-cif-account}"></span></strong>
-				        </button>
-				      </h2>
-				    </div>
-				
-				    <div id="collapseOne" class="collapse show" aria-labelledby="cifHeader" data-parent="#onboardingAccordian">
-				      <div class="card-body">
-				        <div class="row justify-content-center">
-							<div class="form-group col-sm-3">
-							  <label for="customerType"><span th:text="#{customer-type}"></span></label>
-								<select class="form-control" th:field="*{customerType}" id="customerType">
-									<option th:each="p : ${customerTypeMap}" th:value="${p.key}" th:text="${p.value}"/>
-								</select>
-							</div>
-							<div class="form-group col-sm-3">
-							  <label for="residencyType"><span th:text="#{residency-type}"></span></label>
-								<select class="form-control" th:field="*{residencyType}" id="residencyType">
-									<option th:each="p : ${residencyTypeMap}" th:value="${p.key}" th:text="${p.value}" />
-								</select>
-							</div>
-							<div class="form-group col-sm-3">
-							  <label for="customerSegment"><span th:text="#{segment}"></span></label>
-								<select class="form-control" th:field="*{customerSegment}" id="customerSegment">
-									<option th:each="p : ${customerSegmentMap}" th:value="${p.key}" th:text="${p.value}" />
-								</select>
-							</div>
-						</div>
-						<div class="row justify-content-center">
-							<div class="form-group col-sm-3">
-							  <label for="mobileNumber"><span th:text="#{mobile-number}"></span></label>
-								<input class="form-control" type="text" id="mobileNumber"/>
-							</div>
-							<div class="form-group col-sm-3">
-							  <label for="emailAddress"><span th:text="#{email-address}"></span></label>
-								<input class="form-control" type="text" id="emailAddress"/>
-							</div>
-						</div>
-						<div class="row justify-content-center">
-							<div class="col-3 col-sm-4 col-md-2 ">
-								<button class="btn btn-block btn-pill aub-btn-blue" type="submit" id="nextButton" th:onclick="newCifButtonNext()"><span th:text="#{next}"></span></button>
-							</div>
-						</div>
-				      </div>
+
+   <th:block th:include="/header"></th:block>
+    <div class="container-fluid">
+        <div class="fade-in">
+            <div class="card-body">
+                <ul class="nav nav-fill justify-content-center">
+                    <li class="nav-item padding-left"><a class="nav-link btn btn-block aub-btn-gold" th:href="@{/onboarding}"><span th:text="#{authentication}"></span></a></li>
+                    <li class="nav-item padding-left"><a class="nav-link btn btn-block aub-btn-gold disabled" th:href="@{/kyc}"><span th:text="#{kyc}"></span></a></li>
+                    <li class="nav-item padding-left"><a class="nav-link btn btn-block aub-btn-gold disabled" th:href="@{/fatca}"><span th:text="#{fatca}"></span></a></li>
+                    <li class="nav-item padding-left"><a class="nav-link btn btn-block aub-btn-gold disabled" th:href="@{/crs}"><span th:text="#{crs}"></span></a></li>
+                    <li class="nav-item padding-left"><a class="nav-link btn btn-block aub-btn-gold disabled" th:href="@{/signature}"><span th:text="#{signature}"></span></a></li>
+                </ul>
+            </div>
+            <!-- <form action="#" th:action="@{/newAccountApplication}" method="post" th:object="${accountInfo}" id="accountInfoForm"> -->
+			<form action="#" th:action="@{/onboarding}" method="post" th:object="${onBoarding}" id="accountInfoForm">
+                <div class="accordion" id="onboardingAccordian">
+                  
+                  <div class="card" id="cust-account-details">
+                        <div class="card-header" id="cifHeader">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <strong><span th:text="#{new-cif-account}"></span></strong>
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" aria-labelledby="cifHeader" data-parent="#onboardingAccordian">
+                        <!-- <form action="#" th:action="@{/newAccountApplication}" method="post" th:object="${accountInfo}" id="accountInfoForm"> -->
+                            <div class="card-body">
+                                <div class="row justify-content-center">
+                                    <div class="form-group col-sm-3">
+                                        <label for="customerType"><span th:text="#{customer-type}"></span></label>
+                                        <select class="form-control" th:field="*{customerType}" id="customerType">
+                                            <option th:each="p : ${customerTypeMap}" th:value="${p.key}" th:text="${p.value}" />
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-3">
+                                        <label for="customerSubType"><span th:text="#{customer-sub-type}"></span></label>
+                                        <select class="form-control" th:field="*{customerSubType}" id="customerSubType">
+                                            <option th:each="p : ${customerSubTypeMap}" th:value="${p.key}" th:text="${p.value}" />
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-3">
+                                        <label for="residencyType"><span th:text="#{residency-type}"></span></label>
+                                        <select class="form-control" th:field="*{residencyType}" id="residencyType">
+                                            <option th:each="p : ${residencyTypeMap}" th:value="${p.key}" th:text="${p.value}" />
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-3">
+                                        <label for="customerSegment"><span th:text="#{segment}"></span></label>
+                                        <select class="form-control" th:field="*{customerSegment}" id="customerSegment">
+                                            <option th:each="p : ${customerSegmentMap}" th:value="${p.key}" th:text="${p.value}" />
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                	<div class="form-group col-sm-3">
+                                        <label for="customerStatus"><span th:text="#{customer-status}"></span></label>
+                                        <select class="form-control" th:field="*{customerStatus}" id="customerStatus">
+                                            <option th:each="p : ${customerStatusMap}" th:value="${p.key}" th:text="${p.value}" />
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-3">
+                                        <label for="accountType"><span th:text="#{account-type}"></span></label>
+                                        <select class="form-control" th:field="*{accountType}" id="accountType">
+                                            <option th:each="p : ${accountTypeMap}" th:value="${p.key}" th:text="${p.value}" />
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-3">
+                                        <label for="accountCurreny"><span th:text="#{account-currency}"></span></label>
+                                        <select class="form-control" th:field="*{accountCurreny}" id="accountCurreny">
+                                            <option th:each="p : ${accountCurrenyMap}" th:value="${p.key}" th:text="${p.value}" />
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-3">
+                                        <label for="accountOpenReason"><span th:text="#{account-open-reason}"></span></label>
+                                        <select class="form-control" th:field="*{accountOpenReason}" id="accountOpenReason">
+                                            <option th:each="p : ${accountOpenReasonMap}" th:value="${p.key}" th:text="${p.value}" />
+                                        </select>
+                                    </div>
+                                    
+								</div>
+								
+								<div class="row justify-content-center">
+									<div class="form-group col-sm-3">
+                                        <label for="customerBranch"><span th:text="#{branch-name}"></span></label>
+                                        <select class="form-control" th:field="*{customerBranch}" id="customerBranch">
+                                            <option th:each="p : ${branchMap}" th:value="${p.key}" th:text="${p.value}" />
+                                        </select>
+                                    </div>
+									
+									<div class="form-group col-sm-3">
+                                       		<label for="mobileNumber"><span th:text="#{mobile-number}"></span></label>
+                                    		<input class="form-control" type="number" th:field=*{mobileNumber} id="mobileNumber" placeholder="Please Enter Kuwait Mobile Number" th:classappend="${#fields.hasErrors('mobileNumber')} ? is-invalid"/>
+                                       <div class="invalid-feedback" th:if="${#fields.hasErrors('mobileNumber')}" th:errors="*{mobileNumber}" ></div>
+									</div>
+									<div class="form-group col-sm-3">
+									  <label for="emailAddress"><span th:text="#{email-address}"></span></label>
+											<input class="form-control"  type="email" th:field="*{emailAddress}" placeholder="Please Enter Email Address" th:classappend="${#fields.hasErrors('emailAddress')} ? is-invalid"/>
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}" ></div>
+									</div>
+									<div class="form-group col-sm-3">
+			                          <label for="customerLanguage"><span th:text="#{customer-language}"></span></label>
+			                          <div class="col-md-9 col-form-label">
+			                            <div class="form-check form-check-inline">
+			                              <input class="form-check-input" id="inline-radio1" type="radio" th:field="*{customerLanguage}" value="Arabic" name="arabic" th:classappend="${#fields.hasErrors('customerLanguage')} ? is-invalid">
+			                              <label class="form-check-label" for="inline-radio1">Arabic</label>
+			                            </div>
+			                            <div class="form-check form-check-inline">
+			                              <input class="form-check-input" id="inline-radio2" type="radio" th:field="*{customerLanguage}" value="English" name="english">
+			                              <label class="form-check-label" for="inline-radio2">English</label>
+			                            </div>
+			                          </div>
+			                          <div class="invalid-feedback" style="display: block;" th:if="${#fields.hasErrors('customerLanguage')}" th:errors="*{customerLanguage}" ></div>
+			                        </div>
+								</div>
+								<div class="row justify-content-center">
+									<div class="col-3 col-sm-4 col-md-2 ">
+										<button class="btn btn-block aub-btn-blue" id="newApplicationBtn"><span th:text="#{next}"></span></button>
+									</div>
+								</div>
+								<div class="row justify-content-center" th:if="*{referenceNumber} !=null">Your Reference Number is: <span id="referenceNumber"></span></div>
+				      		</div>
 				    </div>
 				  </div>
-				  <div class="card">
+				  
+				  <div class="card" id="auth-card">
 				    <div class="card-header" id="cifDetails">
 				      <h2 class="mb-0">
 				        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -73,96 +140,160 @@
 				    </div>
 				    <div id="collapseTwo" class="collapse" aria-labelledby="cifDetails" data-parent="#onboardingAccordian">
 				      <div class="card-body">
-				        <div class="row justify-content-center">
-		                    <div class="col-3 col-sm-3 col-md-3 ">
-		                      <button class="btn btn-block btn-pill aub-btn-blue" type="button" data-toggle="collapse" data-target="#customerQRCollapse" data-parent="#parent" aria-expanded="false" aria-controls="customerQRCollapse">
+				     	<div class="accordion" id="authenticationAccordian">
+				     		<div id="collapse1" class="collapse" data-parent="#authenticationAccordian">
+				     			<div class="row justify-content-center">
+									<div class="form-group col-sm-6">
+										<input class="form-control" type="text" id="customerQRScanText" placeholder="Scan Customer Kuwait Mobile Id QR Code From QR Scanner"/>
+									</div>
+									<div class="col-2 col-sm-2 col-md-2 ">
+				                      <button class="btn btn-block aub-btn-gold" id="scanCustomerQRBtn" type="button">Scan</button>
+				                    </div>
+								</div>
+				     		</div>
+				     		<div id="collapse2" class="collapse" data-parent="#authenticationAccordian">
+				     			<div class="row justify-content-center">
+				     				<img id="mobileIdQR"/>
+				     			</div>
+				     		</div>
+				     		<div id="collapse3" class="collapse" data-parent="#authenticationAccordian">
+				     			<div class="row justify-content-center">
+				     				<div class="form-group col-sm-6">
+										<input class="form-control" type="number" id="civilIdNumberPush" placeholder="Please Enter Customer Civil Id Number"/>
+									</div>
+									<div class="col-2 col-sm-2 col-md-2 ">
+				                      <button class="btn btn-block aub-btn-gold" id="sendPushNotificationBtn" type="button">Send</button>
+				                    </div>
+				     			</div>
+				     		</div>
+				     		<div id="collapse4" class="collapse" data-parent="#authenticationAccordian">
+				     			<div class="row justify-content-center">
+				     				<div class="form-group col-sm-6">
+										<input class="form-control" type="number" th:field=*{civilIdNumber} id="civilIdNumberScan" placeholder="Please Enter Customer Civil Id Number"/>
+									</div>
+									<div class="col-2 col-sm-2 col-md-2 ">
+				                      <button class="btn btn-block aub-btn-gold" id="scanPhysicalCivilIdBtn" type="button">Scan</button>
+				                    </div>
+				     			</div>
+				     		</div>
+				     		<div id="collapse5" class="collapse" data-parent="#authenticationAccordian">
+				     			<div class="row justify-content-center">
+				     				<div class="form-group col-sm-6">
+										<input class="form-control" type="text" id="documentNumber" placeholder="Please Enter Customer Id Number"/>
+									</div>
+									<div class="col-2 col-sm-2 col-md-2 ">
+				                      <button class="btn btn-block aub-btn-gold" id="documentSaveBtn" type="button">Save</button>
+				                    </div>
+				     			</div>
+				     		</div>
+				     		<div class="row justify-content-center">
+				      		<div class="col-3 col-sm-3 col-md-3 ">
+		                      <button class="btn btn-block aub-btn-blue" type="button" id="customerQRBtn" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
 		                      <svg class="c-icon mr-2">
 	                            <use th:href="@{/vendors/@coreui/icons/svg/free.svg#cil-qr-code}"></use>
 	                          </svg>Customer QR Verification</button>
-		                      
 		                    </div>
-	                    	<div class="col-3 col-sm-3 col-md-3 ">
-		                      <button class="btn btn-block btn-pill aub-btn-blue" type="button" data-toggle="collapse" data-target="#mobileQRCollapse" data-parent="#parent" aria-expanded="false" aria-controls="mobileQRCollapse">
+		                    <div class="col-3 col-sm-3 col-md-3 ">
+		                      <button class="btn btn-block aub-btn-blue" type="button" id="mobileQRBtn" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
 		                      <svg class="c-icon mr-2">
 	                            <use th:href="@{/vendors/@coreui/icons/svg/free.svg#cil-qr-code}"></use>
 	                          </svg>Mobile ID QR Verification</button>
 		                    </div>
 		                    
 		                    <div class="col-2 col-sm-2 col-md-2 ">
-		                      <button class="btn btn-block btn-pill aub-btn-blue" type="button" data-toggle="collapse" data-target="#pushNotificationCollapse" data-parent="#parent" aria-expanded="false" aria-controls="pushNotificationCollapse">
+		                      <button class="btn btn-block aub-btn-blue" type="button" id="pushNotificationBtn" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
 		                      <svg class="c-icon mr-2">
 	                            <use th:href="@{/vendors/@coreui/icons/svg/free.svg#cil-mobile}"></use>
 	                          </svg>Push Notification</button>
 		                    </div>
-						</div>
-						<br/>
-						<div class="row justify-content-center">
+				      	</div>
+				      	<br/>
+				      	<div class="row justify-content-center">
 							<div class="col-2 col-sm-2 col-md-2 ">
-		                      <button class="btn btn-block btn-pill aub-btn-blue" type="button" data-toggle="collapse" data-target="#scanCivilIdCollapse" data-parent="#parent" aria-expanded="false" aria-controls="scanCivilIdCollapse">
+		                      <button class="btn btn-block aub-btn-blue" type="button" id="scanCivilIdBtn" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
 		                      <svg class="c-icon mr-2">
 	                            <use th:href="@{/vendors/@coreui/icons/svg/free.svg#cil-credit-card}"></use>
 	                          </svg>Scan Civil Id</button>
 		                    </div>
 							<div class="col-2 col-sm-2 col-md-2 ">
-		                      <button class="btn btn-block btn-pill aub-btn-gold" type="button">Other</button>
+		                      <button class="btn btn-block aub-btn-gold" type="button" id="otherIdBtn" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+		                      Other</button>
 		                    </div>
 						</div>
-						<br/>
-						<div id="parent">
-							<div class="accordion-group" >
-								<div id="scanCivilIdCollapse" class="collapse indent" >
-		                        	<div class="card card-body">Please Open CIVIL ID Application and scan Physical Civil ID.</div>
-								</div>
-								<div id="customerQRCollapse" class="collapse indent" >
-									<input class="form-control" type="text" id="customerQRScanText" placeholder="Scan Customer Kuwait Mobile Id QR Code From QR Scanner"/>
-			                     </div>
-			                     <div id="mobileQRCollapse" class="collapse indent" >
-		                        	<div class="card card-body">Scan this QR Code from Customer Kuwait Mobile Id.</div>
-								</div>
-								<div id="pushNotificationCollapse" class="collapse indent" >
-		                        	<div class="card card-body">A Push Notification has been sent on Customer Mobile, Kindly ask them to Approve.</div>
-								</div>
-		                     </div>
-	                     </div>
+		     		  </div>
+		     		 </div>
+		     	    </div>
+			       </div>
+			       
+				   <div class="card" id="auth-card-table">
+				    <div class="card-header" id="authDetails">
+					    <div class="card-header-actions">
+					    	<a class="btn btn-block aub-btn-gold" type="button" id="addAuth" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+					    	<strong><span th:text="#{add-authentication}"></span></strong></a>
+					    </div>
+				      <h2 class="mb-0">
+				        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+				          <strong><span th:text="#{authentication-list}"></span></strong>
+				        </button>
+				      </h2>
+				    </div>
+				    <div id="collapseFour" class="collapse" aria-labelledby="authDetails" data-parent="#onboardingAccordian">
+				      <div class="card-body">
+				        <table class="table table-stripped" id="authTable">
+			               <thead>
+			                  <tr>
+			                     <td>Civil Id Number</td>
+			                     <td>Name</td>
+			                     <td>Expiry Date</td>
+			                     <td>Authenticated</td>
+			                     <td>Delete</td>
+			                  </tr>
+			               </thead>
+			               <tbody></tbody>
+			            </table>
 				      </div>
 				    </div>
 				  </div>
-				  <div class="card">
+				  
+				   <div class="card" id="civil-id-address">
 				    <div class="card-header" id="cifAddress">
+				    
 				      <h2 class="mb-0">
 				        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
 				          <strong><span th:text="#{civil-id-detail-from-paci}"></span></strong>
 				        </button>
 				      </h2>
 				    </div>
+				    
 				    <div id="collapseThree" class="collapse" aria-labelledby="cifAddress" data-parent="#onboardingAccordian">
+				    <!-- <form action="#" th:action="@{/onboarding}" method="post" th:object="${onBoarding}" id="onBoardingForm"> -->
 				      <div class="card-body">
 				        <div class="row justify-content-center">
 							<div class="form-group col-sm-3">
 							  <label for="civilId"><span th:text="#{civil-id}"></span></label>
-								<input class="form-control" type="text" id="civilId"/>
+								<input class="form-control" type="text" th:field="*{civilId}" id="civilId"/>
 							</div>
 							<div class="form-group col-sm-3">
 							  <label for="civilIdExpiry"><span th:text="#{civil-id-expiry}"></span></label>
-								<input class="form-control" type="text" id="civilIdExpiry"/>
+								<input class="form-control" type="text" th:field="*{civilIdExpiry}" id="civilIdExpiry"/>
 							</div>
 							<div class="form-group col-sm-3">
 							  <label for="firstName"><span th:text="#{first-name}"></span></label>
-								<input class="form-control" type="text" id="firstName"/>
+								<input class="form-control" type="text" th:field="*{firstNameEn}" id="firstName"/>
 							</div>
 							<div class="form-group col-sm-3">
 							  <label for="lastName"><span th:text="#{last-name}"></span></label>
-								<input class="form-control" type="text" id="lastName"/>
+								<input class="form-control" type="text" th:field="*{lastNameEn}" id="lastName"/>
 							</div>
 						</div>
 						<div class="row justify-content-center">
 							<div class="form-group col-sm-3">
 							  <label for="dateOfBirth"><span th:text="#{date-of-birth}"></span></label>
-								<input class="form-control" type="text" id="dateOfBirth"/>
+								<input class="form-control" type="text" th:field="*{dateOfBirth}" id="dateOfBirth"/>
 							</div>
 							<div class="form-group col-sm-3">
 							  <label for="gender"><span th:text="#{gender}"></span></label>
-								<input class="form-control" type="text" id="gender"/>
+								<input class="form-control" type="text" th:field="*{gender}"id="gender"/>
 							</div>
 							<div class="form-group col-sm-3">
 							  <label for="nationality"><span th:text="#{nationality}"></span></label>
@@ -170,69 +301,99 @@
 							</div>
 							<div class="form-group col-sm-3">
 							  <label for="passportNo"><span th:text="#{passport-no}"></span></label>
-								<input class="form-control" type="text" id="passportNo"/>
+								<input class="form-control" type="text" th:field="*{passportNo}" id="passportNo"/>
 							</div>
 						</div>
 						<strong class="row justify-content-center"><span th:text="#{customer-address-from-paci}"></span></strong>
 						<div class="row justify-content-center">
 							<div class="form-group col-sm-3">
 							  <label for="addressArLine1"><span th:text="#{addr-ar-line-1}"></span></label>
-								<input class="form-control" type="text" id="addressArLine1"/>
+								<select class="form-control" th:field="*{addressArArea}" id="areaAr">
+                                    <option th:each="p : ${areaArMap}" th:value="${p.key}" th:text="${p.value}" />
+                                </select>
 							</div>
 							<div class="form-group col-sm-3">
 							  <label for="addressArLine2"><span th:text="#{addr-ar-line-2}"></span></label>
-								<input class="form-control" type="text" id="addressArLine2"/>
+								<input class="form-control" type="text" th:field="*{addressArBlock}"  id="addressArBlock"/>
 							</div>
 							<div class="form-group col-sm-3">
 							  <label for="addressArLine3"><span th:text="#{addr-ar-line-3}"></span></label>
-								<input class="form-control" type="text" id="addressArLine3"/>
+								<input class="form-control" type="text" th:field="*{addressArJada}"  id="addressArJada"/>
 							</div>
 							<div class="form-group col-sm-3">
 							  <label for="addressArLine4"><span th:text="#{addr-ar-line-4}"></span></label>
-								<input class="form-control" type="text" id="addressArLine4"/>
+								<input class="form-control" type="text" th:field="*{addressArBuilding}"  id="addressArBuilding"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="addressArLine5"><span th:text="#{addr-ar-line-5}"></span></label>
+								<input class="form-control" type="text" th:field="*{addressArApartment}"  id="addressArApartment"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="addressArLine6"><span th:text="#{addr-ar-line-6}"></span></label>
+								<input class="form-control" type="text" th:field="*{addressArStreet}"  id="addressArStreet"/>
 							</div>
 						</div>
 						<strong class="row justify-content-center"><span th:text="#{customer-english-address}"></span></strong>
 						<div class="row justify-content-center">
 						<div class="form-group col-sm-3">
 							  <label for="addressEnLine1"><span th:text="#{addr-en-line-1}"></span></label>
-								<input class="form-control" type="text" id="addressEnLine1"/>
+								<select class="form-control" th:field="*{addressEnArea}" id="areaEn">
+                                    <option th:each="p : ${areaEnMap}" th:value="${p.key}" th:text="${p.value}" />
+                                </select>
 							</div>
 							<div class="form-group col-sm-3">
 							  <label for="addressEnLine2"><span th:text="#{addr-en-line-2}"></span></label>
-								<input class="form-control" type="text" id="addressEnLine2"/>
+								<input class="form-control" type="text" th:field="*{addressEnBlock}"  id="addressEnBlock"/>
 							</div>
 							<div class="form-group col-sm-3">
 							  <label for="addressEnLine3"><span th:text="#{addr-en-line-3}"></span></label>
-								<input class="form-control" type="text" id="addressEnLine3"/>
+								<input class="form-control" type="text" th:field="*{addressEnJada}"  id="addressEnJada"/>
 							</div>
 							<div class="form-group col-sm-3">
 							  <label for="addressEnLine4"><span th:text="#{addr-en-line-4}"></span></label>
-								<input class="form-control" type="text" id="addressEnLine4"/>
+								<input class="form-control" type="text" th:field="*{addressEnBuilding}"  id="addressEnBuilding"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="addressArLine5"><span th:text="#{addr-en-line-5}"></span></label>
+								<input class="form-control" type="text" th:field="*{addressEnApartment}"  id="addressEnApartment"/>
+							</div>
+							<div class="form-group col-sm-3">
+							  <label for="addressArLine6"><span th:text="#{addr-ar-line-6}"></span></label>
+								<input class="form-control" type="text" th:field="*{addressEnStreet}"  id="addressEnStreet"/>
+							</div>
+						</div>
+						<div class="row justify-content-center">
+							<div class="col-3 col-sm-4 col-md-2 ">
+								<button class="btn btn-block aub-btn-blue" type="submit" id="next2Button"><span th:text="#{next}"></span></button>
 							</div>
 						</div>
 				      </div>
+				      <!-- </form> -->
 				    </div>
 				  </div>
 				</div>
-				
-				
-      		</form>
+      		</form> 
 		</div>
-   </div>
+		<div class="modal fade" id="delete-modal">
+			<div class="modal-dialog modal-dialog-centered">
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <h4 class="modal-title">Delete!</h4>
+				  <button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					Are you sure ? do you want to delete this Authentication
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+				  <button type="button" class="btn btn-danger" id="model-delete-btn">Delete</button>
+				</div>				
+			  </div>
+			</div>
+		  </div>
+   		</div>
    <br/><br/>
-</section>
-<th:block layout:fragment="script">
-	<script th:src="@{/js/onboarding.js}"></script>
-	<script th:inline="javascript">
-			/*<![CDATA[*/
-			$(document).ready(function () {
-				alert('I am from jQuery Dashboard');
-			});
-			/*]]>*/
-		</script> 
-</th:block>
-</body>
-  
 
+<th:block th:include="/footer"></th:block>
+<script th:src="@{/js/onboarding.js}"></script>
 </html>
